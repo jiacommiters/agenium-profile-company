@@ -1,0 +1,111 @@
+---
+// Hero Section - Software Vendor Landing Page
+---
+
+<section
+    id="hero"
+    class="relative bg-blue-950 text-white overflow-hidden min-h-screen flex flex-col items-center"
+>
+    <!-- Professional Background Pattern -->
+    <div class="absolute inset-0 opacity-20 pointer-events-none">
+        <div
+            class="absolute inset-0"
+            style="background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0); background-size: 40px 40px;"
+        >
+        </div>
+    </div>
+
+    <!-- Subtle Ambient Glow (Cleaner) -->
+    <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[500px] bg-blue-900/30 rounded-full blur-[100px] pointer-events-none"
+    >
+    </div>
+
+    <!-- Content Wrapper -->
+    <div
+        class="relative container mx-auto px-6 lg:px-8 z-10 flex flex-col items-center"
+        style="padding-top: 130px; padding-bottom: 120px;"
+    >
+        <div class="max-w-4xl w-full text-center flex flex-col items-center">
+            <!-- 1. Professional Badge -->
+            <div
+                class="inline-flex items-center gap-2 bg-white/5 border border-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-blue-100/90 text-[13px] font-medium tracking-wide mb-8"
+            >
+                <span class="w-1.5 h-1.5 rounded-full bg-teal-400"></span>
+                <span>The #1 LPG Inventory Management Platform</span>
+            </div>
+
+            <!-- 2. Main Headline -->
+            <h1
+                class="text-5xl sm:text-6xl md:text-7xl font-bold mb-8 leading-tight tracking-tight text-white drop-shadow-sm"
+            >
+                Optimize Your <span class="text-teal-400">Cylinder Fleet</span
+                ><br />
+                Maximize Your Profits
+            </h1>
+
+            <!-- 3. Sub-headline / Value Proposition -->
+            <p
+                class="text-lg md:text-xl text-blue-100/80 mt-12 mb-12 max-w-2xl mx-auto leading-relaxed font-light"
+            >
+                Stop losing cylinders and start gaining insights. Our end-to-end
+                tracking solution gives you total visibility over your LPG
+                assets, distributors, and revenue.
+            </p>
+
+            <!-- 4. Primary CTA Buttons (Two) -->
+            <div
+                class="flex flex-col sm:flex-row gap-4 justify-center items-center w-full"
+                style="margin-top: 20px;"
+            >
+                <!-- Primary CTA -->
+                <a
+                    href="#contact"
+                    class="group inline-flex items-center justify-center gap-2 text-white hover:text-teal-400 font-medium px-8 py-4 rounded-full transition-all duration-300 w-full sm:w-auto"
+                >
+                    <span class="relative z-10">Start Free Trial</span>
+                    <svg
+                        class="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+
+                <!-- Secondary CTA -->
+                <a
+                    href="#features"
+                    class="group inline-flex items-center justify-center gap-2 text-white hover:text-teal-300 font-medium px-8 py-4 rounded-full transition-all duration-300 w-full sm:w-auto"
+                >
+                    <svg
+                        class="w-5 h-5 transition-transform group-hover:scale-110"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                        ></path>
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Watch How It Works</span>
+                </a>
+            </div>
+
+            <!-- Bottom Wave Divider -->
+        </div>
+    </div>
+</section>

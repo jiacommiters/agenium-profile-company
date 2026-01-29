@@ -1,0 +1,122 @@
+---
+import { featuresData } from "../data/features";
+
+// Features Section - Key Software Capabilities
+---
+
+<section
+    id="features"
+    class="bg-slate-50/50"
+    style="padding-top: 100px; padding-bottom: 100px;"
+>
+    <div class="container mx-auto px-6 lg:px-8 flex flex-col items-center">
+        <!-- Section Header -->
+        <div class="text-center mb-16 lg:mb-24 max-w-3xl">
+            <div
+                class="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-800 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wide mb-6"
+            >
+                <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                <span>POWERFUL CAPABILITIES</span>
+            </div>
+
+            <h2
+                class="text-4xl md:text-5xl font-bold text-blue-950 mb-6 tracking-tight"
+                style="margin-top: 20px;"
+            >
+                Everything You Need to <span class="text-teal-600"
+                    >Master Your Fleet</span
+                >
+            </h2>
+
+            <p class="text-lg text-slate-600 leading-relaxed"
+            style="margin-top: 20px;"
+                >
+                Comprehensive tools designed specifically for LPG distribution.
+                Monitor, manage, and optimize every aspect of your operations
+                from a single dashboard.
+            </p>
+        </div>
+
+        <!-- Features Grid -->
+        <div
+            class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12 max-w-7xl mx-auto"
+            style="margin-top: 20px;"   
+        >
+            {
+                featuresData.map((feature) => (
+                    <div 
+                    class="group relative bg-white rounded-2xl p-8 border border-gray-200 hover:border-teal-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-teal-900/5 h-full flex flex-col"
+                    style="padding: 15px;"
+                    >
+                        <!-- Icon Area -->
+                        <div class="mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center transition-colors duration-300 group-hover:bg-teal-50 group-hover:text-teal-600">
+                                <svg
+                                    class="w-7 h-7"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    {feature.iconPaths.map((path) => (
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="1.5"
+                                            d={path}
+                                        />
+                                    ))}
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex-1 flex flex-col">
+                            <h3 
+                                class="text-[22px] font-bold text-slate-900     group-hover:text-teal-700 transition-colors tracking-tight"
+                                style="margin-bottom: 7px;
+                                       margin-top: 7px;"
+                                >
+                                {feature.title}
+                            </h3>
+                            <p 
+                                class="text-slate-600 leading-relaxed mb-6 text-[15px]"
+                                style="margin-bottom: 7px;
+                                       margin-top: 7px;"
+                                >
+                                {feature.description}
+                            </p>
+
+                            <!-- Benefits List -->
+                            <ul class="space-y-3 mt-auto pt-2 border-t border-gray-50"
+                                style="margin-bottom: 7px;
+                                       margin-top: 7px;"
+                                >
+                                {feature.benefits.map((benefit) => (
+                                    <li class="flex items-start text-[14px] text-slate-700 font-medium"
+                                        style="margin-bottom: 7px;
+                                       margin-top: 7px;"
+                                        >
+                                        <svg
+                                            class="w-5 h-5 mr-3 text-teal-500 shrink-0 mt-0.5"
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                        <span class="leading-relaxed">
+                                            {benefit}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+</section>

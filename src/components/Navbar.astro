@@ -1,0 +1,246 @@
+---
+// Navbar.astro
+const navItems = [
+    { name: "Features", href: "#features" },
+    { name: "Benefits", href: "#benefits" },
+    { name: "Testimonials", href: "#testimonials" },
+];
+---
+
+<header
+    id="navbar"
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent"
+>
+    <div class="relative container mx-auto px-6 lg:px-8">
+        <div
+            class="flex items-center justify-between h-24 transition-all duration-300"
+            id="nav-container"
+        >
+            <!-- Logo -->
+            <a href="#hero" class="flex items-center gap-3 group relative z-50">
+                <div
+                    class="w-12 h-12 bg-teal-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg"
+                >
+                    <svg
+                        class="w-7 h-7 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                        ></path>
+                    </svg>
+                </div>
+                <span class="text-2xl font-black text-white drop-shadow-md"
+                    >Agenium</span
+                >
+            </a>
+
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:flex items-center gap-8">
+                {
+                    navItems.map((item) => (
+                        <a
+                            href={item.href}
+                            class="nav-link text-sm font-medium text-blue-100/80 hover:text-white transition-colors duration-300 relative group"
+                        >
+                            {item.name}
+                            <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-teal-400 transition-all duration-300 group-hover:w-full" />
+                        </a>
+                    ))
+                }
+                <a
+                    href="#contact"
+                    class="ml-4 text-white hover:text-teal-400 font-medium px-4 py-2 rounded-full transition-all duration-300 flex items-center justify-center"
+                >
+                    Request Demo
+                </a>
+            </nav>
+
+            <!-- Mobile Menu Button -->
+            <button
+                id="mobile-menu-btn"
+                class="lg:hidden relative z-50 p-2 text-white focus:outline-none"
+                aria-label="Toggle navigation"
+            >
+                <div
+                    class="w-8 h-8 flex flex-col justify-center items-center gap-1.5 overflow-hidden"
+                >
+                    <span
+                        class="w-6 h-0.5 bg-white transition-all duration-300 origin-center"
+                        id="hamburger-top"></span>
+                    <span
+                        class="w-6 h-0.5 bg-white transition-all duration-300"
+                        id="hamburger-middle"></span>
+                    <span
+                        class="w-6 h-0.5 bg-white transition-all duration-300 origin-center"
+                        id="hamburger-bottom"></span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div
+        id="mobile-menu"
+        class="fixed inset-0 z-40 bg-linear-to-br from-blue-950/95 to-blue-900/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden flex flex-col justify-center items-center"
+    >
+        <nav
+            class="flex flex-col items-center gap-8 translate-y-8 transition-transform duration-300"
+            id="mobile-nav-content"
+        >
+            {
+                navItems.map((item) => (
+                    <a
+                        href={item.href}
+                        class="mobile-nav-link text-3xl font-bold text-white/80 hover:text-white transition-colors"
+                    >
+                        {item.name}
+                    </a>
+                ))
+            }
+            <a
+                href="#contact"
+                class="mt-4 bg-teal-600 hover:bg-teal-500 text-white px-8 py-4 rounded-full font-bold text-xl shadow-xl transition-all"
+            >
+                Request Demo
+            </a>
+        </nav>
+    </div>
+</header>
+
+<script>
+    const navbar = document.getElementById("navbar");
+    const navContainer = document.getElementById("nav-container");
+    const mobileBtn = document.getElementById("mobile-menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileNavContent = document.getElementById("mobile-nav-content");
+    const hamburgerTop = document.getElementById("hamburger-top");
+    const hamburgerMiddle = document.getElementById("hamburger-middle");
+    const hamburgerBottom = document.getElementById("hamburger-bottom");
+    const navLinks = document.querySelectorAll(".nav-link");
+    const sections = document.querySelectorAll(
+        'section[id], footer[id], div[class*="hero"]',
+    ); // Trying to capture all main sections
+
+    let isMenuOpen = false;
+
+    // Sticky Scroll Handler
+    function handleScroll() {
+        if (window.scrollY > 20) {
+            navbar?.classList.add(
+                "bg-blue-950/80",
+                "backdrop-blur-md",
+                "shadow-2xl",
+                "border-b",
+                "border-white/5",
+            );
+            navbar?.classList.remove("bg-transparent");
+            navContainer?.classList.remove("h-24");
+            navContainer?.classList.add("h-20");
+        } else {
+            navbar?.classList.remove(
+                "bg-blue-950/80",
+                "backdrop-blur-md",
+                "shadow-2xl",
+                "border-b",
+                "border-white/5",
+            );
+            navbar?.classList.add("bg-transparent");
+            navContainer?.classList.add("h-24");
+            navContainer?.classList.remove("h-20");
+        }
+    }
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Init
+
+    // Mobile Menu Toggle
+    function toggleMenu() {
+        isMenuOpen = !isMenuOpen;
+        document.body.style.overflow = isMenuOpen ? "hidden" : "";
+
+        if (isMenuOpen) {
+            mobileMenu?.classList.remove("opacity-0", "pointer-events-none");
+            mobileMenu?.classList.add("opacity-100", "pointer-events-auto");
+
+            mobileNavContent?.classList.remove("translate-y-8");
+            mobileNavContent?.classList.add("translate-y-0");
+
+            // Hamburger Animation
+            hamburgerTop?.classList.add("rotate-45", "translate-y-2");
+            hamburgerMiddle?.classList.add("opacity-0", "-translate-x-4");
+            hamburgerBottom?.classList.add("-rotate-45", "-translate-y-2");
+        } else {
+            mobileMenu?.classList.remove("opacity-100", "pointer-events-auto");
+            mobileMenu?.classList.add("opacity-0", "pointer-events-none");
+
+            mobileNavContent?.classList.remove("translate-y-0");
+            mobileNavContent?.classList.add("translate-y-8");
+
+            // Hamburger Reset
+            hamburgerTop?.classList.remove("rotate-45", "translate-y-2");
+            hamburgerMiddle?.classList.remove("opacity-0", "-translate-x-4");
+            hamburgerBottom?.classList.remove("-rotate-45", "-translate-y-2");
+        }
+    }
+
+    mobileBtn?.addEventListener("click", toggleMenu);
+
+    // Smooth Scroll & Mobile Link Click
+    document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const href = this.getAttribute("href");
+            if (href) {
+                const target = document.querySelector(href);
+                if (target) {
+                    if (isMenuOpen) toggleMenu();
+                    target.scrollIntoView({
+                        behavior: "smooth",
+                    });
+                }
+            }
+        });
+    });
+
+    // Active State Observer
+    const observerOptions = {
+        root: null,
+        rootMargin: "-50% 0px -50% 0px",
+        threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute("id");
+                // Remove active class from all
+                navLinks.forEach((link) => {
+                    link.classList.remove("text-white", "font-semibold");
+                    link.classList.add("text-blue-100/80");
+                });
+                // Add active class to current
+                if (id) {
+                    const activeLink = document.querySelector(
+                        `.nav-link[href="#${id}"]`,
+                    );
+                    if (activeLink) {
+                        activeLink.classList.remove("text-blue-100/80");
+                        activeLink.classList.add("text-white", "font-semibold");
+                        // Optional: Add indicator via class if needed, or rely on text style
+                    }
+                }
+            }
+        });
+    }, observerOptions);
+
+    // Track standard sections
+    document.querySelectorAll("section").forEach((section) => {
+        observer.observe(section);
+    });
+</script>
