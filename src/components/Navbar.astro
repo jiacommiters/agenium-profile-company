@@ -3,7 +3,7 @@
 const navItems = [
     { name: "Features", href: "#features" },
     { name: "Benefits", href: "#benefits" },
-    { name: "Testimonials", href: "#testimonials" },
+    { name: "Contact", href: "#contact" },
 ];
 ---
 
@@ -84,48 +84,85 @@ const navItems = [
         </div>
     </div>
 
-    <!-- Mobile Menu Overlay -->
+    <!-- Mobile Menu Backdrop -->
     <div
-        id="mobile-menu"
-        class="fixed inset-0 z-40 bg-linear-to-br from-blue-950/95 to-blue-900/95 backdrop-blur-xl opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden flex flex-col justify-center items-center"
+        id="mobile-menu-backdrop"
+        class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 lg:hidden"
+        aria-hidden="true"
     >
-        <nav
-            class="flex flex-col items-center gap-8 translate-y-8 transition-transform duration-300"
-            id="mobile-nav-content"
+    </div>
+
+    <!-- Mobile Menu Drawer -->
+    <div
+        id="mobile-menu-drawer"
+        class="fixed top-0 right-0 h-full w-72 bg-gradient-to-b from-blue-950 to-blue-900 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-out lg:hidden flex flex-col"
+    >
+        <!-- Drawer Header -->
+        <div
+            class="flex items-center justify-between p-6 border-b border-blue-800/50"
         >
-            {
-                navItems.map((item) => (
-                    <a
-                        href={item.href}
-                        class="mobile-nav-link text-3xl font-bold text-white/80 hover:text-white transition-colors"
-                    >
-                        {item.name}
-                    </a>
-                ))
-            }
-            <a
-                href="#contact"
-                class="mt-4 bg-teal-600 hover:bg-teal-500 text-white px-8 py-4 rounded-full font-bold text-xl shadow-xl transition-all"
+            <h2 class="text-xl font-bold text-white">Menu</h2>
+            <button
+                id="mobile-menu-close"
+                class="p-2 text-white hover:text-teal-400 transition-colors"
+                aria-label="Close navigation"
             >
-                Request Demo
-            </a>
+                <svg
+                    class="w-6 h-6"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="flex-1 overflow-y-auto py-6">
+            <ul class="flex flex-col">
+                {
+                    navItems.map((item) => (
+                        <li>
+                            <a
+                                href={item.href}
+                                class="mobile-nav-link block px-6 py-4 text-white hover:bg-blue-800/50 hover:text-teal-400 transition-all font-medium text-lg border-l-4 border-transparent hover:border-teal-500"
+                            >
+                                {item.name}
+                            </a>
+                        </li>
+                    ))
+                }
+                <li class="px-6 pt-6">
+                    <a
+                        href="#contact"
+                        class="mobile-nav-link block w-full bg-teal-600 hover:bg-teal-500 text-white font-bold px-6 py-4 rounded-xl text-center transition-all shadow-lg"
+                    >
+                        Request Demo
+                    </a>
+                </li>
+            </ul>
         </nav>
+
+        <!-- Drawer Footer -->
+        <div class="p-6 border-t border-blue-800/50">
+            <p class="text-sm text-blue-300 text-center">© 2026 AgeniumTrack</p>
+        </div>
     </div>
 </header>
 
 <script>
     const navbar = document.getElementById("navbar");
     const navContainer = document.getElementById("nav-container");
-    const mobileBtn = document.getElementById("mobile-menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileNavContent = document.getElementById("mobile-nav-content");
-    const hamburgerTop = document.getElementById("hamburger-top");
-    const hamburgerMiddle = document.getElementById("hamburger-middle");
-    const hamburgerBottom = document.getElementById("hamburger-bottom");
+    const mobileBtnOpen = document.getElementById("mobile-menu-btn");
+    const mobileBtnClose = document.getElementById("mobile-menu-close");
+    const mobileBackdrop = document.getElementById("mobile-menu-backdrop");
+    const mobileDrawer = document.getElementById("mobile-menu-drawer");
     const navLinks = document.querySelectorAll(".nav-link");
-    const sections = document.querySelectorAll(
-        'section[id], footer[id], div[class*="hero"]',
-    ); // Trying to capture all main sections
 
     let isMenuOpen = false;
 
@@ -165,42 +202,47 @@ const navItems = [
         document.body.style.overflow = isMenuOpen ? "hidden" : "";
 
         if (isMenuOpen) {
-            mobileMenu?.classList.remove("opacity-0", "pointer-events-none");
-            mobileMenu?.classList.add("opacity-100", "pointer-events-auto");
+            mobileBackdrop?.classList.remove(
+                "opacity-0",
+                "pointer-events-none",
+            );
+            mobileBackdrop?.classList.add("opacity-100", "pointer-events-auto");
 
-            mobileNavContent?.classList.remove("translate-y-8");
-            mobileNavContent?.classList.add("translate-y-0");
-
-            // Hamburger Animation
-            hamburgerTop?.classList.add("rotate-45", "translate-y-2");
-            hamburgerMiddle?.classList.add("opacity-0", "-translate-x-4");
-            hamburgerBottom?.classList.add("-rotate-45", "-translate-y-2");
+            mobileDrawer?.classList.remove("translate-x-full");
+            mobileDrawer?.classList.add("translate-x-0");
         } else {
-            mobileMenu?.classList.remove("opacity-100", "pointer-events-auto");
-            mobileMenu?.classList.add("opacity-0", "pointer-events-none");
+            mobileBackdrop?.classList.remove(
+                "opacity-100",
+                "pointer-events-auto",
+            );
+            mobileBackdrop?.classList.add("opacity-0", "pointer-events-none");
 
-            mobileNavContent?.classList.remove("translate-y-0");
-            mobileNavContent?.classList.add("translate-y-8");
-
-            // Hamburger Reset
-            hamburgerTop?.classList.remove("rotate-45", "translate-y-2");
-            hamburgerMiddle?.classList.remove("opacity-0", "-translate-x-4");
-            hamburgerBottom?.classList.remove("-rotate-45", "-translate-y-2");
+            mobileDrawer?.classList.remove("translate-x-0");
+            mobileDrawer?.classList.add("translate-x-full");
         }
     }
 
-    mobileBtn?.addEventListener("click", toggleMenu);
+    mobileBtnOpen?.addEventListener("click", toggleMenu);
+    mobileBtnClose?.addEventListener("click", toggleMenu);
+    mobileBackdrop?.addEventListener("click", toggleMenu);
 
     // Smooth Scroll & Mobile Link Click
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
             e.preventDefault();
-            const href = this.getAttribute("href");
+            const currentAnchor = e.currentTarget as HTMLAnchorElement;
+            const href = currentAnchor.getAttribute("href");
             if (href) {
                 const target = document.querySelector(href);
                 if (target) {
                     if (isMenuOpen) toggleMenu();
-                    target.scrollIntoView({
+                    const offset = 80; // Offset for sticky header
+                    const elementPosition = target.getBoundingClientRect().top;
+                    const offsetPosition =
+                        elementPosition + window.pageYOffset - offset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
                         behavior: "smooth",
                     });
                 }
@@ -211,7 +253,7 @@ const navItems = [
     // Active State Observer
     const observerOptions = {
         root: null,
-        rootMargin: "-50% 0px -50% 0px",
+        rootMargin: "-20% 0px -70% 0px",
         threshold: 0,
     };
 
@@ -219,12 +261,12 @@ const navItems = [
         entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute("id");
-                // Remove active class from all
+
                 navLinks.forEach((link) => {
                     link.classList.remove("text-white", "font-semibold");
                     link.classList.add("text-blue-100/80");
                 });
-                // Add active class to current
+
                 if (id) {
                     const activeLink = document.querySelector(
                         `.nav-link[href="#${id}"]`,
@@ -232,15 +274,13 @@ const navItems = [
                     if (activeLink) {
                         activeLink.classList.remove("text-blue-100/80");
                         activeLink.classList.add("text-white", "font-semibold");
-                        // Optional: Add indicator via class if needed, or rely on text style
                     }
                 }
             }
         });
     }, observerOptions);
 
-    // Track standard sections
-    document.querySelectorAll("section").forEach((section) => {
+    document.querySelectorAll("section[id]").forEach((section) => {
         observer.observe(section);
     });
 </script>
