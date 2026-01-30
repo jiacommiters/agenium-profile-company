@@ -7,8 +7,16 @@ import "../styles/global.css";
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script is:inline>
+			// Initialize language before anything else
+			const savedLang = localStorage.getItem("lang") || "en";
+			document.documentElement.lang = savedLang;
+			document.documentElement.setAttribute("data-lang", savedLang);
+		</script>
 		<meta
 			name="description"
+			data-i18n="seo.description"
+			data-i18n-attr="content"
 			content="AgeniumTrack - Industry-leading LPG cylinder inventory and distribution tracking software. Real-time tracking, automated distribution, and powerful analytics for LPG businesses."
 		/>
 		<meta
@@ -20,17 +28,21 @@ import "../styles/global.css";
 		<meta property="og:type" content="website" />
 		<meta
 			property="og:title"
+			data-i18n="seo.title"
+			data-i18n-attr="content"
 			content="AgeniumTrack - LPG Inventory & Distribution Tracking Software"
 		/>
 		<meta
 			property="og:description"
+			data-i18n="seo.description"
+			data-i18n-attr="content"
 			content="Transform your LPG distribution with real-time tracking, automated management, and powerful analytics. Trusted by 150+ businesses."
 		/>
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>
+		<title data-i18n="seo.title">
 			AgeniumTrack - LPG Inventory & Distribution Tracking Software
 		</title>
 	</head>

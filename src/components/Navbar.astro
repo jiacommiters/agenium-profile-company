@@ -46,6 +46,7 @@ const navItems = [
                     navItems.map((item) => (
                         <a
                             href={item.href}
+                            data-i18n={`nav.${item.name.toLowerCase()}`}
                             class="nav-link text-sm font-medium text-blue-100/80 hover:text-white transition-colors duration-300 relative group"
                         >
                             {item.name}
@@ -53,8 +54,28 @@ const navItems = [
                         </a>
                     ))
                 }
+                <!-- Language Toggle -->
+                <div
+                    class="flex items-center gap-1 bg-white/5 border border-white/10 rounded-full p-1 ml-4 self-center"
+                >
+                    <button
+                        id="lang-en"
+                        class="px-2.5 py-1 rounded-full text-[11px] font-bold transition-all duration-300 lang-toggle-btn active-lang"
+                        data-lang="en"
+                    >
+                        EN
+                    </button>
+                    <button
+                        id="lang-id"
+                        class="px-2.5 py-1 rounded-full text-[11px] font-bold transition-all duration-300 lang-toggle-btn"
+                        data-lang="id"
+                    >
+                        ID
+                    </button>
+                </div>
                 <a
                     href="#contact"
+                    data-i18n="nav.demo"
                     class="ml-4 text-white hover:text-teal-400 font-medium px-4 py-2 rounded-full transition-all duration-300 flex items-center justify-center"
                 >
                     Request Demo
@@ -101,25 +122,46 @@ const navItems = [
         <div
             class="flex items-center justify-between p-6 border-b border-blue-800/50"
         >
-            <h2 class="text-xl font-bold text-white">Menu</h2>
-            <button
-                id="mobile-menu-close"
-                class="p-2 text-white hover:text-teal-400 transition-colors"
-                aria-label="Close navigation"
-            >
-                <svg
-                    class="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+            <h2 class="text-xl font-bold text-white" data-i18n="nav.menu">
+                Menu
+            </h2>
+            <div class="flex items-center gap-4">
+                <!-- Mobile Language Toggle -->
+                <div
+                    class="flex items-center gap-1 bg-white/5 border border-white/10 rounded-full p-1"
                 >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+                    <button
+                        class="px-2.5 py-1 rounded-full text-[11px] font-bold transition-all duration-300 lang-toggle-btn active-lang"
+                        data-lang="en"
+                    >
+                        EN
+                    </button>
+                    <button
+                        class="px-2.5 py-1 rounded-full text-[11px] font-bold transition-all duration-300 lang-toggle-btn"
+                        data-lang="id"
+                    >
+                        ID
+                    </button>
+                </div>
+                <button
+                    id="mobile-menu-close"
+                    class="p-2 text-white hover:text-teal-400 transition-colors"
+                    aria-label="Close navigation"
+                >
+                    <svg
+                        class="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Navigation Links -->
@@ -130,6 +172,7 @@ const navItems = [
                         <li>
                             <a
                                 href={item.href}
+                                data-i18n={`nav.${item.name.toLowerCase()}`}
                                 class="mobile-nav-link block px-6 py-4 text-white hover:bg-blue-800/50 hover:text-teal-400 transition-all font-medium text-lg border-l-4 border-transparent hover:border-teal-500"
                             >
                                 {item.name}
@@ -140,6 +183,7 @@ const navItems = [
                 <li class="px-6 pt-6">
                     <a
                         href="#contact"
+                        data-i18n="nav.demo"
                         class="mobile-nav-link block w-full bg-teal-600 hover:bg-teal-500 text-white font-bold px-6 py-4 rounded-xl text-center transition-all shadow-lg"
                     >
                         Request Demo
@@ -156,6 +200,8 @@ const navItems = [
 </header>
 
 <script>
+    import { translations } from "../i18n/translations";
+
     const navbar = document.getElementById("navbar");
     const navContainer = document.getElementById("nav-container");
     const mobileBtnOpen = document.getElementById("mobile-menu-btn");
@@ -163,10 +209,67 @@ const navItems = [
     const mobileBackdrop = document.getElementById("mobile-menu-backdrop");
     const mobileDrawer = document.getElementById("mobile-menu-drawer");
     const navLinks = document.querySelectorAll(".nav-link");
+    const langBtns = document.querySelectorAll(".lang-toggle-btn");
 
     let isMenuOpen = false;
+    let currentLang = (document.documentElement.lang || "en") as "en" | "id";
 
-    // Sticky Scroll Handler
+    // --- Translation Engine ---
+    function updateLanguageUI(lang: "en" | "id") {
+        document.documentElement.lang = lang;
+        document.documentElement.setAttribute("data-lang", lang);
+        localStorage.setItem("lang", lang);
+        currentLang = lang;
+
+        // Update Toggle Buttons UI
+        langBtns.forEach((btn) => {
+            if (btn.getAttribute("data-lang") === lang) {
+                btn.classList.add("bg-teal-600", "text-white", "active-lang");
+                btn.classList.remove("text-blue-100/60", "hover:text-white");
+            } else {
+                btn.classList.remove(
+                    "bg-teal-600",
+                    "text-white",
+                    "active-lang",
+                );
+                btn.classList.add("text-blue-100/60", "hover:text-white");
+            }
+        });
+
+        // Update All Text Elements
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+            const key = el.getAttribute("data-i18n");
+            if (key) {
+                const translationSet = translations[lang];
+                const text = (translationSet as any)[key];
+
+                if (text) {
+                    const attr = el.getAttribute("data-i18n-attr");
+                    if (attr) {
+                        el.setAttribute(attr, text);
+                    } else {
+                        el.innerHTML = text;
+                    }
+                }
+            }
+        });
+    }
+
+    // Init Language UI
+    updateLanguageUI(currentLang);
+
+    // Language Toggle Listener
+    langBtns.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const lang = btn.getAttribute("data-lang") as "en" | "id";
+            if (lang !== currentLang) {
+                updateLanguageUI(lang);
+            }
+        });
+    });
+
+    // --- Sticky Scroll Handler ---
     function handleScroll() {
         if (window.scrollY > 20) {
             navbar?.classList.add(
@@ -196,7 +299,7 @@ const navItems = [
     window.addEventListener("scroll", handleScroll);
     handleScroll(); // Init
 
-    // Mobile Menu Toggle
+    // --- Mobile Menu Toggle ---
     function toggleMenu() {
         isMenuOpen = !isMenuOpen;
         document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -226,13 +329,13 @@ const navItems = [
     mobileBtnClose?.addEventListener("click", toggleMenu);
     mobileBackdrop?.addEventListener("click", toggleMenu);
 
-    // Smooth Scroll & Mobile Link Click
+    // --- Smooth Scroll & Mobile Link Click ---
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
-            e.preventDefault();
             const currentAnchor = e.currentTarget as HTMLAnchorElement;
             const href = currentAnchor.getAttribute("href");
-            if (href) {
+            if (href && href.startsWith("#")) {
+                e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {
                     if (isMenuOpen) toggleMenu();
@@ -250,7 +353,7 @@ const navItems = [
         });
     });
 
-    // Active State Observer
+    // --- Active State Observer ---
     const observerOptions = {
         root: null,
         rootMargin: "-20% 0px -70% 0px",
